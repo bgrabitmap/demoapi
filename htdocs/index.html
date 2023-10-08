@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LazPaint Plugin</title>
+</head>
+
+<body>
+    <h1>LazPaint Plugin</h1>
+    <form>
+        <input id="num" type="number" min="3" max="10" onchange="changeNumber()" value="3">
+    </form>
+
+    <script>
+        function changeNumber() {
+            var num = document.getElementById('num')
+            console.log(num.value)
+
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            var raw = JSON.stringify({
+                "num": parseInt(num.value)
+            });
+
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+
+            fetch("http://localhost:8000/lazpaint", requestOptions)
+                .then(response => response.text())
+                .then(result => console.log(result))
+                .catch(error => console.log('error', error));
+        }
+    </script>
+</body>
+
+</html>
